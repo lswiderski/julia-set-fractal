@@ -7,8 +7,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->ImEdit->setText("0.19");
+    ui->ReEdit->setText("-0.73");
+    ui->N_MAXEdit->setText("200");
     button = ui->pushButton;
-
    connect(button, SIGNAL(clicked()), this, SLOT(Draw()));
 }
 
@@ -22,8 +24,8 @@ void MainWindow::Draw(int _n_max, float _re, float _im)
 }
 void MainWindow::Draw()
 {
-    int width =200;
-    int height =200;
+    int width =500;
+    int height =500;
 
     float user_Im,user_Re;
      int n_max;
@@ -31,26 +33,25 @@ void MainWindow::Draw()
     try{
         n_max = ui->N_MAXEdit->text().toInt();
     }
-     catch(std::string e){
+     catch(std::exception &e){
           n_max = 200;
+         // qDebug() <<"max wrong1";
      }
      try
      {
         user_Re = ui->ReEdit->text().toFloat();
      }
-     catch(std::string e)
+     catch(std::exception &e)
      {
           user_Re = -0.73f;
      }
     try{
       user_Im = ui->ImEdit->text().toFloat();
     }
-    catch(std::string e)
+    catch(std::exception &e)
     {
          user_Im = 0.19f;
     }
-
-
 
 QImage fractal(width,height,QImage::Format_RGB32);
 QRgb value;
@@ -67,11 +68,11 @@ for(int ui = 0 ; ui<width ; ui++)
         for(n=0;n<n_max;n++)
         {
             nz = (nz*nz) + c;
-            if(!onetry)
-            qDebug() <<nz.real()<<" "<<nz.imag()<<" "<<n<<" "<<std::abs(nz);
+            //if(!onetry)
+            //qDebug() <<nz.real()<<" "<<nz.imag()<<" "<<n<<" "<<std::abs(nz);
             if(std::abs(nz)>4)break;
         }
-        onetry = true;
+        //onetry = true;
         //qDebug() <<std::abs(nz)<<" "<<n;
         value = QColor::fromHsv(n%256,255,255*(n<n_max)).rgb();
 

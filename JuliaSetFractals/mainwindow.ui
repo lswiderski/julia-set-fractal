@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>568</width>
-    <height>425</height>
+    <width>634</width>
+    <height>547</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,15 +19,15 @@
      <rect>
       <x>11</x>
       <y>8</y>
-      <width>541</width>
-      <height>361</height>
+      <width>601</width>
+      <height>481</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <property name="verticalSpacing">
       <number>6</number>
      </property>
-     <item row="1" column="0">
+     <item row="2" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QLabel" name="label_3">
@@ -61,7 +61,7 @@
        </item>
       </layout>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QPushButton" name="pushButton">
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
@@ -71,7 +71,7 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
+     <item row="1" column="0">
       <widget class="QLabel" name="imagelabel">
        <property name="text">
         <string>Julia</string>
@@ -89,7 +89,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>568</width>
+     <width>634</width>
      <height>21</height>
     </rect>
    </property>

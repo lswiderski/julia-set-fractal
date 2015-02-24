@@ -50,12 +50,12 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(568, 425);
+        MainWindow->resize(634, 547);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayoutWidget = new QWidget(centralWidget);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(11, 8, 541, 361));
+        verticalLayoutWidget->setGeometry(QRect(11, 8, 601, 481));
         gridLayout = new QGridLayout(verticalLayoutWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -96,24 +96,24 @@ public:
         horizontalLayout_2->addWidget(N_MAXEdit, 0, Qt::AlignLeft);
 
 
-        gridLayout->addLayout(horizontalLayout_2, 1, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout_2, 2, 0, 1, 1);
 
         pushButton = new QPushButton(verticalLayoutWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setLayoutDirection(Qt::LeftToRight);
 
-        gridLayout->addWidget(pushButton, 2, 0, 1, 1);
+        gridLayout->addWidget(pushButton, 3, 0, 1, 1);
 
         imagelabel = new QLabel(verticalLayoutWidget);
         imagelabel->setObjectName(QStringLiteral("imagelabel"));
         imagelabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
 
-        gridLayout->addWidget(imagelabel, 0, 0, 1, 1);
+        gridLayout->addWidget(imagelabel, 1, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 568, 21));
+        menuBar->setGeometry(QRect(0, 0, 634, 21));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
