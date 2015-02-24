@@ -160,7 +160,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Julia set Fractals // Lukasz Swiderski 2015 PB", 0));
         label_3->setText(QApplication::translate("MainWindow", "Re", 0));
         label_4->setText(QApplication::translate("MainWindow", "Im", 0));
         label_2->setText(QApplication::translate("MainWindow", "N_MAX", 0));
