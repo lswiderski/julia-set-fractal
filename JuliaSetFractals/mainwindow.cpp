@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     button = ui->pushButton;
-    connect(button, SIGNAL(clicked()), this, SLOT(Draw()));
+
+   connect(button, SIGNAL(clicked()), this, SLOT(Draw()));
 }
 
 MainWindow::~MainWindow()
@@ -20,5 +21,5 @@ void MainWindow::Draw(int _n_max, float _re, float _im)
 }
 void MainWindow::Draw()
 {
-ui->ReEdit->text()  = "test";
+ui->ReEdit->setText("test");
 }
