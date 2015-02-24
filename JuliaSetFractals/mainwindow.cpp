@@ -7,11 +7,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    horizontal_shift=0;
+    vertical_shift=0;
     ui->ImEdit->setText("0.19");
     ui->ReEdit->setText("-0.73");
     ui->N_MAXEdit->setText("200");
     button = ui->pushButton;
    connect(button, SIGNAL(clicked()), this, SLOT(Draw()));
+   connect(ui->downButton, SIGNAL(clicked()), this, SLOT(MoveDown()));
+   connect(ui->upButton, SIGNAL(clicked()), this, SLOT(MoveUp()));
+   connect(ui->leftButton, SIGNAL(clicked()), this, SLOT(MoveLeft()));
+   connect(ui->rightButton, SIGNAL(clicked()), this, SLOT(MoveRight()));
 }
 
 MainWindow::~MainWindow()
@@ -22,10 +28,31 @@ void MainWindow::Draw(int _n_max, float _re, float _im)
 {
 
 }
+void MainWindow::MoveDown()
+{
+    vertical_shift-=50;
+    Draw();
+}
+void MainWindow::MoveUp()
+{
+    vertical_shift+=50;
+    Draw();
+}
+void MainWindow::MoveLeft()
+{
+    horizontal_shift+=50;
+    Draw();
+}
+void MainWindow::MoveRight()
+{
+    horizontal_shift-=50;
+    Draw();
+}
+
 void MainWindow::Draw()
 {
-    int width =500;
-    int height =500;
+    int width =400;
+    int height =400;
 
     float user_Im,user_Re;
      int n_max;
@@ -55,13 +82,14 @@ void MainWindow::Draw()
 
 QImage fractal(width,height,QImage::Format_RGB32);
 QRgb value;
+
 bool onetry = false;
 c = std::complex<float>(user_Re,user_Im);
 for(int ui = 0 ; ui<width ; ui++)
 {
     for(int vi = 0 ; vi<height ; vi++)
     {
-        nz = std::complex<float>(3*(((float)ui/(float)width) -0.5f),3*(((float)vi/(float)height)-0.5f));
+        nz = std::complex<float>(3*(((float)(ui+horizontal_shift)/(float)width) -0.5f),3*(((float)(vi+vertical_shift)/(float)height)-0.5f));
 
         int n=0;
 

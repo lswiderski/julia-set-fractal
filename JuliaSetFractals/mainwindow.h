@@ -17,6 +17,10 @@ public:
     ~MainWindow();
 private slots:
     void Draw();
+    void MoveUp();
+    void MoveDown();
+    void MoveLeft();
+    void MoveRight();
 private:
     Ui::MainWindow *ui;
     QPushButton *button;
@@ -28,6 +32,8 @@ private:
     float IM;
     std::complex<float> c;
     std::complex<float> nz;
+    int horizontal_shift;
+    int vertical_shift;
 };
 
 #endif // MAINWINDOW_H
