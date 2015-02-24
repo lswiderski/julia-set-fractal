@@ -13,7 +13,6 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -41,8 +40,8 @@ public:
     QLineEdit *ImEdit;
     QLabel *label_2;
     QLineEdit *N_MAXEdit;
-    QGraphicsView *Render;
     QPushButton *pushButton;
+    QLabel *imagelabel;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -56,11 +55,12 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayoutWidget = new QWidget(centralWidget);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(40, 160, 492, 149));
+        verticalLayoutWidget->setGeometry(QRect(11, 8, 541, 361));
         gridLayout = new QGridLayout(verticalLayoutWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setVerticalSpacing(6);
         gridLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -98,16 +98,17 @@ public:
 
         gridLayout->addLayout(horizontalLayout_2, 1, 0, 1, 1);
 
-        Render = new QGraphicsView(verticalLayoutWidget);
-        Render->setObjectName(QStringLiteral("Render"));
-
-        gridLayout->addWidget(Render, 0, 0, 1, 1);
-
         pushButton = new QPushButton(verticalLayoutWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setLayoutDirection(Qt::LeftToRight);
 
         gridLayout->addWidget(pushButton, 2, 0, 1, 1);
+
+        imagelabel = new QLabel(verticalLayoutWidget);
+        imagelabel->setObjectName(QStringLiteral("imagelabel"));
+        imagelabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+
+        gridLayout->addWidget(imagelabel, 0, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -133,6 +134,7 @@ public:
         label_4->setText(QApplication::translate("MainWindow", "Im", 0));
         label_2->setText(QApplication::translate("MainWindow", "N_MAX", 0));
         pushButton->setText(QApplication::translate("MainWindow", "Draw", 0));
+        imagelabel->setText(QApplication::translate("MainWindow", "Julia", 0));
     } // retranslateUi
 
 };

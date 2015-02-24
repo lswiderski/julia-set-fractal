@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -21,5 +22,64 @@ void MainWindow::Draw(int _n_max, float _re, float _im)
 }
 void MainWindow::Draw()
 {
-ui->ReEdit->setText("test");
+    int width =200;
+    int height =200;
+
+    float user_Im,user_Re;
+     int n_max;
+
+    try{
+        n_max = ui->N_MAXEdit->text().toInt();
+    }
+     catch(std::string e){
+          n_max = 200;
+     }
+     try
+     {
+        user_Re = ui->ReEdit->text().toFloat();
+     }
+     catch(std::string e)
+     {
+          user_Re = -0.73f;
+     }
+    try{
+      user_Im = ui->ImEdit->text().toFloat();
+    }
+    catch(std::string e)
+    {
+         user_Im = 0.19f;
+    }
+
+
+
+QImage fractal(width,height,QImage::Format_RGB32);
+QRgb value;
+bool onetry = false;
+c = std::complex<float>(user_Re,user_Im);
+for(int ui = 0 ; ui<width ; ui++)
+{
+    for(int vi = 0 ; vi<height ; vi++)
+    {
+        nz = std::complex<float>(3*(((float)ui/(float)width) -0.5f),3*(((float)vi/(float)height)-0.5f));
+
+        int n=0;
+
+        for(n=0;n<n_max;n++)
+        {
+            nz = (nz*nz) + c;
+            if(!onetry)
+            qDebug() <<nz.real()<<" "<<nz.imag()<<" "<<n<<" "<<std::abs(nz);
+            if(std::abs(nz)>4)break;
+        }
+        onetry = true;
+        //qDebug() <<std::abs(nz)<<" "<<n;
+        value = QColor::fromHsv(n%256,255,255*(n<n_max)).rgb();
+
+        fractal.setPixel(ui,vi,value);
+    }
+}
+
+
+
+ui->imagelabel->setPixmap(QPixmap::fromImage(fractal));
 }

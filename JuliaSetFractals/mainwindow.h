@@ -26,8 +26,8 @@ private:
     int N_MAX;
     float RE;
     float IM;
-    std::complex<double> c;
-    std::complex<double> nz;
+    std::complex<float> c;
+    std::complex<float> nz;
 };
 
 #endif // MAINWINDOW_H

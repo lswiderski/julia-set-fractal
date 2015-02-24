@@ -17,13 +17,16 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>160</y>
-      <width>492</width>
-      <height>149</height>
+      <x>11</x>
+      <y>8</y>
+      <width>541</width>
+      <height>361</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
+     <property name="verticalSpacing">
+      <number>6</number>
+     </property>
      <item row="1" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
@@ -58,9 +61,6 @@
        </item>
       </layout>
      </item>
-     <item row="0" column="0">
-      <widget class="QGraphicsView" name="Render"/>
-     </item>
      <item row="2" column="0">
       <widget class="QPushButton" name="pushButton">
        <property name="layoutDirection">
@@ -68,6 +68,16 @@
        </property>
        <property name="text">
         <string>Draw</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="imagelabel">
+       <property name="text">
+        <string>Julia</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
       </widget>
      </item>
