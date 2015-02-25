@@ -23,17 +23,13 @@ private slots:
     void MoveRight();
 private:
     Ui::MainWindow *ui;
-    QPushButton *button;
-    void Draw(int _n_max, float _re, float _im);
-
     QAction *drawAction;
     int N_MAX;
     float RE;
     float IM;
-    std::complex<float> c;
-    std::complex<float> nz;
     int horizontal_shift;
     int vertical_shift;
+    QImage GenerateJulia(std::complex<float> &c, int n_max =200, int width=400, int height=400);
 };
 
 #endif // MAINWINDOW_H
