@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //set default values
     horizontal_shift=0;
     vertical_shift=0;
+    zoom=1.0f;
     ui->ImEdit->setText("0.19");
     ui->ReEdit->setText("-0.73");
     ui->N_MAXEdit->setText("200");
@@ -21,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
    connect(ui->upButton, SIGNAL(clicked()), this, SLOT(MoveUp()));
    connect(ui->leftButton, SIGNAL(clicked()), this, SLOT(MoveLeft()));
    connect(ui->rightButton, SIGNAL(clicked()), this, SLOT(MoveRight()));
+   connect(ui->ZoomPlus, SIGNAL(clicked()), this, SLOT(ZoomPlus()));
+   connect(ui->ZoomMinus, SIGNAL(clicked()), this, SLOT(ZoomMinus()));
 }
 
 MainWindow::~MainWindow()
@@ -30,22 +33,32 @@ MainWindow::~MainWindow()
 
 void MainWindow::MoveDown()
 {
-    vertical_shift-=50;
+    vertical_shift+=50;
     Draw();
 }
 void MainWindow::MoveUp()
 {
-    vertical_shift+=50;
+    vertical_shift-=50;
     Draw();
 }
 void MainWindow::MoveLeft()
 {
-    horizontal_shift+=50;
+    horizontal_shift-=50;
     Draw();
 }
 void MainWindow::MoveRight()
 {
-    horizontal_shift-=50;
+    horizontal_shift+=50;
+    Draw();
+}
+void MainWindow::ZoomPlus()
+{
+    zoom-=0.1f;
+    Draw();
+}
+void MainWindow::ZoomMinus()
+{
+    zoom+=0.1;
     Draw();
 }
 
@@ -97,7 +110,7 @@ QImage MainWindow::GenerateJulia(std::complex<float> &c, int n_max, int width, i
     {
         for(int vi = 0 ; vi<height ; vi++)
         {
-            nz = std::complex<float>(3*(((float)(ui+horizontal_shift)/(float)width) -0.5f),3*(((float)(vi+vertical_shift)/(float)height)-0.5f));
+            nz = std::complex<float>(3*(((float)(ui+horizontal_shift)/(float)width)*zoom -0.5f),3*(((float)(vi+vertical_shift)/(float)height)*zoom-0.5f));
 
             int n=0;
 

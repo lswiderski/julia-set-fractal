@@ -21,6 +21,8 @@ private slots:
     void MoveDown();
     void MoveLeft();
     void MoveRight();
+    void ZoomPlus();
+    void ZoomMinus();
 private:
     Ui::MainWindow *ui;
     QAction *drawAction;
@@ -29,6 +31,7 @@ private:
     float IM;
     int horizontal_shift;
     int vertical_shift;
+    float zoom;
     QImage GenerateJulia(std::complex<float> &c, int n_max =200, int width=400, int height=400);
 };
 

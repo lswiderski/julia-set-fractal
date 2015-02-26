@@ -42,11 +42,13 @@ public:
     QLineEdit *N_MAXEdit;
     QPushButton *pushButton;
     QGridLayout *gridLayout_2;
-    QLabel *imagelabel;
     QPushButton *leftButton;
+    QLabel *imagelabel;
+    QPushButton *upButton;
     QPushButton *downButton;
     QPushButton *rightButton;
-    QPushButton *upButton;
+    QPushButton *ZoomPlus;
+    QPushButton *ZoomMinus;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -112,16 +114,21 @@ public:
         gridLayout_2 = new QGridLayout();
         gridLayout_2->setSpacing(6);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        leftButton = new QPushButton(verticalLayoutWidget);
+        leftButton->setObjectName(QStringLiteral("leftButton"));
+
+        gridLayout_2->addWidget(leftButton, 3, 0, 1, 1);
+
         imagelabel = new QLabel(verticalLayoutWidget);
         imagelabel->setObjectName(QStringLiteral("imagelabel"));
         imagelabel->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
 
         gridLayout_2->addWidget(imagelabel, 3, 2, 1, 1);
 
-        leftButton = new QPushButton(verticalLayoutWidget);
-        leftButton->setObjectName(QStringLiteral("leftButton"));
+        upButton = new QPushButton(verticalLayoutWidget);
+        upButton->setObjectName(QStringLiteral("upButton"));
 
-        gridLayout_2->addWidget(leftButton, 3, 0, 1, 1);
+        gridLayout_2->addWidget(upButton, 2, 2, 1, 1);
 
         downButton = new QPushButton(verticalLayoutWidget);
         downButton->setObjectName(QStringLiteral("downButton"));
@@ -133,10 +140,15 @@ public:
 
         gridLayout_2->addWidget(rightButton, 3, 3, 1, 1);
 
-        upButton = new QPushButton(verticalLayoutWidget);
-        upButton->setObjectName(QStringLiteral("upButton"));
+        ZoomPlus = new QPushButton(verticalLayoutWidget);
+        ZoomPlus->setObjectName(QStringLiteral("ZoomPlus"));
 
-        gridLayout_2->addWidget(upButton, 2, 2, 1, 1);
+        gridLayout_2->addWidget(ZoomPlus, 5, 0, 1, 1);
+
+        ZoomMinus = new QPushButton(verticalLayoutWidget);
+        ZoomMinus->setObjectName(QStringLiteral("ZoomMinus"));
+
+        gridLayout_2->addWidget(ZoomMinus, 5, 3, 1, 1);
 
 
         gridLayout->addLayout(gridLayout_2, 1, 0, 1, 1);
@@ -165,11 +177,13 @@ public:
         label_4->setText(QApplication::translate("MainWindow", "Im", 0));
         label_2->setText(QApplication::translate("MainWindow", "N_MAX", 0));
         pushButton->setText(QApplication::translate("MainWindow", "Draw", 0));
-        imagelabel->setText(QApplication::translate("MainWindow", "Julia", 0));
         leftButton->setText(QApplication::translate("MainWindow", "Left", 0));
+        imagelabel->setText(QApplication::translate("MainWindow", "Julia", 0));
+        upButton->setText(QApplication::translate("MainWindow", "Up", 0));
         downButton->setText(QApplication::translate("MainWindow", "Down", 0));
         rightButton->setText(QApplication::translate("MainWindow", "Right", 0));
-        upButton->setText(QApplication::translate("MainWindow", "Up", 0));
+        ZoomPlus->setText(QApplication::translate("MainWindow", "Zoom +", 0));
+        ZoomMinus->setText(QApplication::translate("MainWindow", "Zoom -", 0));
     } // retranslateUi
 
 };
