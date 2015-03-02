@@ -16,8 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ImEdit->setText("0.19");
     ui->ReEdit->setText("-0.73");
     ui->N_MAXEdit->setText("200");
-    width =400;
-    height =400;
+    width =800;
+    height =800;
     //connect events
    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(Draw()));
    connect(ui->downButton, SIGNAL(clicked()), this, SLOT(MoveDown()));
@@ -62,7 +62,7 @@ void MainWindow::ZoomPlus()
 }
 void MainWindow::ZoomMinus()
 {
-    zoom+=0.1;
+    zoom+=0.1f;
     Draw();
 }
 
@@ -101,9 +101,15 @@ void MainWindow::Draw()
     std::complex<float> c = std::complex<float>(user_Re,user_Im);
 
     //generate fractal and set it as Image
-    ui->imagelabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
-   // ui->imagelabel->setScaledContents(true);
+    QLabel *imageLabel = new QLabel;
+    imageLabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
+    //ui->imagelabel->setScaledContents(true);
     //ui->imagelabel->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
+    //ui->scrollArea->setBackgroundRole(QPalette::Dark);
+    //ui->scrollArea = new QScrollArea;
+    ui->scrollArea->setWidget(imageLabel);
+    // setCentralWidget(ui->scrollArea);
+
 }
 void MainWindow::resizeEvent(QResizeEvent * event )
 {
@@ -116,6 +122,8 @@ void MainWindow::resizeEvent(QResizeEvent * event )
 
 QImage MainWindow::GenerateJulia(std::complex<float> &c, int n_max, int width, int height)
 {
+    width*=((1 -zoom)*4+1);
+    height*=((1 -zoom)*4+1);
     QImage fractal(width,height,QImage::Format_RGB32);
     QRgb value;
     std::complex<float> nz;
