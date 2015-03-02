@@ -2,140 +2,146 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>634</width>
-    <height>547</height>
+    <width>723</width>
+    <height>583</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Julia set Fractals // Lukasz Swiderski 2015 PB</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>11</x>
-      <y>8</y>
-      <width>601</width>
-      <height>481</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <property name="verticalSpacing">
-      <number>6</number>
-     </property>
-     <item row="3" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Re</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="ReEdit"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Im</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="ImEdit"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>N_MAX</string>
-         </property>
-        </widget>
-       </item>
-       <item alignment="Qt::AlignLeft">
-        <widget class="QLineEdit" name="N_MAXEdit"/>
-       </item>
-      </layout>
-     </item>
-     <item row="4" column="0">
-      <widget class="QPushButton" name="pushButton">
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="text">
-        <string>Draw</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="3" column="0">
-        <widget class="QPushButton" name="leftButton">
-         <property name="text">
-          <string>Left</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QLabel" name="imagelabel">
-         <property name="text">
-          <string>Julia</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QPushButton" name="upButton">
-         <property name="text">
-          <string>Up</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="QPushButton" name="downButton">
-         <property name="text">
-          <string>Down</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="3">
-        <widget class="QPushButton" name="rightButton">
-         <property name="text">
-          <string>Right</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QPushButton" name="ZoomPlus">
-         <property name="text">
-          <string>Zoom +</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="3">
-        <widget class="QPushButton" name="ZoomMinus">
-         <property name="text">
-          <string>Zoom -</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
+      </property>
+      <property name="verticalSpacing">
+       <number>6</number>
+      </property>
+      <item row="1" column="0">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="2" column="2">
+         <widget class="QPushButton" name="upButton">
+          <property name="text">
+           <string>Up</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QPushButton" name="leftButton">
+          <property name="text">
+           <string>Left</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="3">
+         <widget class="QPushButton" name="ZoomMinus">
+          <property name="text">
+           <string>Zoom -</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QPushButton" name="downButton">
+          <property name="text">
+           <string>Down</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
+         <widget class="QPushButton" name="rightButton">
+          <property name="text">
+           <string>Right</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="imagelabel">
+          <property name="minimumSize">
+           <size>
+            <width>400</width>
+            <height>400</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Julia</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QPushButton" name="ZoomPlus">
+          <property name="text">
+           <string>Zoom +</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="3" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Re</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="ReEdit"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Im</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="ImEdit"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>N_MAX</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignLeft">
+         <widget class="QLineEdit" name="N_MAXEdit"/>
+        </item>
+       </layout>
+      </item>
+      <item row="4" column="0">
+       <widget class="QPushButton" name="pushButton">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Draw</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>634</width>
+     <width>723</width>
      <height>21</height>
     </rect>
    </property>

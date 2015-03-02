@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
     //set default values
     horizontal_shift=0;
     vertical_shift=0;
@@ -15,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ImEdit->setText("0.19");
     ui->ReEdit->setText("-0.73");
     ui->N_MAXEdit->setText("200");
-
+    width =400;
+    height =400;
     //connect events
    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(Draw()));
    connect(ui->downButton, SIGNAL(clicked()), this, SLOT(MoveDown()));
@@ -33,27 +35,29 @@ MainWindow::~MainWindow()
 
 void MainWindow::MoveDown()
 {
-    vertical_shift+=50;
+    vertical_shift+=1;
     Draw();
 }
 void MainWindow::MoveUp()
 {
-    vertical_shift-=50;
+    vertical_shift-=1;
     Draw();
 }
 void MainWindow::MoveLeft()
 {
-    horizontal_shift-=50;
+    horizontal_shift-=1;
     Draw();
 }
 void MainWindow::MoveRight()
 {
-    horizontal_shift+=50;
+    horizontal_shift+=1;
     Draw();
 }
 void MainWindow::ZoomPlus()
 {
     zoom-=0.1f;
+    //horizontal_shift+=(50*zoom);
+    //vertical_shift+=(50*zoom);
     Draw();
 }
 void MainWindow::ZoomMinus()
@@ -67,8 +71,7 @@ void MainWindow::Draw()
 
     //prepare to draw
     //read values from user
-    int width =400;
-    int height =400;
+
 
     float user_Im,user_Re;
     int n_max;
@@ -99,6 +102,16 @@ void MainWindow::Draw()
 
     //generate fractal and set it as Image
     ui->imagelabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
+   // ui->imagelabel->setScaledContents(true);
+    //ui->imagelabel->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
+}
+void MainWindow::resizeEvent(QResizeEvent * event )
+{
+    QSize size = ui->centralWidget->size();
+    width = size.width()-200;
+    height = size.height()-200;
+    MainWindow::Draw();
+
 }
 
 QImage MainWindow::GenerateJulia(std::complex<float> &c, int n_max, int width, int height)
@@ -110,7 +123,7 @@ QImage MainWindow::GenerateJulia(std::complex<float> &c, int n_max, int width, i
     {
         for(int vi = 0 ; vi<height ; vi++)
         {
-            nz = std::complex<float>(3*(((float)(ui+horizontal_shift)/(float)width)*zoom -0.5f),3*(((float)(vi+vertical_shift)/(float)height)*zoom-0.5f));
+            nz = std::complex<float>(3*(((float)(ui)/(float)width)*zoom -0.5f)+horizontal_shift,3*(((float)(vi)/(float)height)*zoom-0.5f)+vertical_shift);
 
             int n=0;
 

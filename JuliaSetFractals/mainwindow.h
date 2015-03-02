@@ -26,12 +26,15 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QAction *drawAction;
+    void resizeEvent(QResizeEvent * event );
     int N_MAX;
     float RE;
     float IM;
     int horizontal_shift;
     int vertical_shift;
     float zoom;
+    int width;
+    int height;
     QImage GenerateJulia(std::complex<float> &c, int n_max =200, int width=400, int height=400);
 };
 
