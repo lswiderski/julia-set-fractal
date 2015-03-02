@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[9];
-    char stringdata[71];
+    QByteArrayData data[10];
+    char stringdata[89];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -30,18 +30,20 @@ struct qt_meta_stringdata_MainWindow_t {
 static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
     {
 QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
-QT_MOC_LITERAL(1, 11, 4), // "Draw"
-QT_MOC_LITERAL(2, 16, 0), // ""
-QT_MOC_LITERAL(3, 17, 6), // "MoveUp"
-QT_MOC_LITERAL(4, 24, 8), // "MoveDown"
-QT_MOC_LITERAL(5, 33, 8), // "MoveLeft"
-QT_MOC_LITERAL(6, 42, 9), // "MoveRight"
-QT_MOC_LITERAL(7, 52, 8), // "ZoomPlus"
-QT_MOC_LITERAL(8, 61, 9) // "ZoomMinus"
+QT_MOC_LITERAL(1, 11, 16), // "DrawWithUserSize"
+QT_MOC_LITERAL(2, 28, 0), // ""
+QT_MOC_LITERAL(3, 29, 5), // "Reset"
+QT_MOC_LITERAL(4, 35, 6), // "MoveUp"
+QT_MOC_LITERAL(5, 42, 8), // "MoveDown"
+QT_MOC_LITERAL(6, 51, 8), // "MoveLeft"
+QT_MOC_LITERAL(7, 60, 9), // "MoveRight"
+QT_MOC_LITERAL(8, 70, 8), // "ZoomPlus"
+QT_MOC_LITERAL(9, 79, 9) // "ZoomMinus"
 
     },
-    "MainWindow\0Draw\0\0MoveUp\0MoveDown\0"
-    "MoveLeft\0MoveRight\0ZoomPlus\0ZoomMinus"
+    "MainWindow\0DrawWithUserSize\0\0Reset\0"
+    "MoveUp\0MoveDown\0MoveLeft\0MoveRight\0"
+    "ZoomPlus\0ZoomMinus"
 };
 #undef QT_MOC_LITERAL
 
@@ -51,7 +53,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -59,15 +61,17 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   49,    2, 0x08 /* Private */,
-       3,    0,   50,    2, 0x08 /* Private */,
-       4,    0,   51,    2, 0x08 /* Private */,
-       5,    0,   52,    2, 0x08 /* Private */,
-       6,    0,   53,    2, 0x08 /* Private */,
-       7,    0,   54,    2, 0x08 /* Private */,
-       8,    0,   55,    2, 0x08 /* Private */,
+       1,    0,   54,    2, 0x08 /* Private */,
+       3,    0,   55,    2, 0x08 /* Private */,
+       4,    0,   56,    2, 0x08 /* Private */,
+       5,    0,   57,    2, 0x08 /* Private */,
+       6,    0,   58,    2, 0x08 /* Private */,
+       7,    0,   59,    2, 0x08 /* Private */,
+       8,    0,   60,    2, 0x08 /* Private */,
+       9,    0,   61,    2, 0x08 /* Private */,
 
  // slots: parameters
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -84,13 +88,14 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     if (_c == QMetaObject::InvokeMetaMethod) {
         MainWindow *_t = static_cast<MainWindow *>(_o);
         switch (_id) {
-        case 0: _t->Draw(); break;
-        case 1: _t->MoveUp(); break;
-        case 2: _t->MoveDown(); break;
-        case 3: _t->MoveLeft(); break;
-        case 4: _t->MoveRight(); break;
-        case 5: _t->ZoomPlus(); break;
-        case 6: _t->ZoomMinus(); break;
+        case 0: _t->DrawWithUserSize(); break;
+        case 1: _t->Reset(); break;
+        case 2: _t->MoveUp(); break;
+        case 3: _t->MoveDown(); break;
+        case 4: _t->MoveLeft(); break;
+        case 5: _t->MoveRight(); break;
+        case 6: _t->ZoomPlus(); break;
+        case 7: _t->ZoomMinus(); break;
         default: ;
         }
     }
@@ -122,13 +127,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }

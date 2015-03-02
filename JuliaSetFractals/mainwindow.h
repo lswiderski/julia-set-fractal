@@ -16,7 +16,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 private slots:
-    void Draw();
+    void DrawWithUserSize();
+    void Reset();
     void MoveUp();
     void MoveDown();
     void MoveLeft();
@@ -27,6 +28,7 @@ private:
     Ui::MainWindow *ui;
     QAction *drawAction;
     void resizeEvent(QResizeEvent * event );
+    void Draw();
     int N_MAX;
     float RE;
     float IM;
@@ -36,6 +38,7 @@ private:
     int width;
     int height;
     QImage GenerateJulia(std::complex<float> &c, int n_max =200, int width=400, int height=400);
+
 };
 
 #endif // MAINWINDOW_H

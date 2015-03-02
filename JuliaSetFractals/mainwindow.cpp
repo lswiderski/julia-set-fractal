@@ -16,10 +16,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ImEdit->setText("0.19");
     ui->ReEdit->setText("-0.73");
     ui->N_MAXEdit->setText("200");
-    width =800;
-    height =800;
+    ui->heightEdit->setText("400");
+    ui->widthEdit->setText("400");
+    ui->horizontalLayout_3->setAlignment(Qt::AlignLeft);
+    width = 400;
+    height = 400;
     //connect events
-   connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(Draw()));
+   connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(DrawWithUserSize()));
+   connect(ui->resetButton, SIGNAL(clicked()), this, SLOT(Reset()));
    connect(ui->downButton, SIGNAL(clicked()), this, SLOT(MoveDown()));
    connect(ui->upButton, SIGNAL(clicked()), this, SLOT(MoveUp()));
    connect(ui->leftButton, SIGNAL(clicked()), this, SLOT(MoveLeft()));
@@ -32,7 +36,15 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+void MainWindow::Reset()
+{
+    horizontal_shift=0;
+    vertical_shift=0;
+    zoom=1.0f;
+    width = 400;
+    height = 400;
+    Draw();
+}
 void MainWindow::MoveDown()
 {
     vertical_shift+=1;
@@ -66,9 +78,30 @@ void MainWindow::ZoomMinus()
     Draw();
 }
 
-void MainWindow::Draw()
+void MainWindow::DrawWithUserSize()
 {
 
+    try{
+      width = ui->widthEdit->text().toInt();
+    }
+    catch(std::exception &e)
+    {
+         width = 400;
+    }
+
+    try{
+      height = ui->heightEdit->text().toInt();
+    }
+    catch(std::exception &e)
+    {
+         height = 400;
+    }
+    Draw();
+
+
+}
+void MainWindow::Draw()
+{
     //prepare to draw
     //read values from user
 
@@ -109,14 +142,18 @@ void MainWindow::Draw()
     //ui->scrollArea = new QScrollArea;
     ui->scrollArea->setWidget(imageLabel);
     // setCentralWidget(ui->scrollArea);
-
 }
+
 void MainWindow::resizeEvent(QResizeEvent * event )
 {
-    QSize size = ui->centralWidget->size();
-    width = size.width()-200;
-    height = size.height()-200;
-    MainWindow::Draw();
+    QSize size = ui->scrollArea->size();
+    if(size.width()>width)
+    {
+        width = size.width();
+        height = size.height();
+        MainWindow::Draw();
+    }
+
 
 }
 
