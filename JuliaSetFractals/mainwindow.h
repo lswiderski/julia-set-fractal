@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <complex>
 #include <QPushButton>
+#include <QWheelEvent>
 namespace Ui {
 class MainWindow;
 }
@@ -37,6 +38,7 @@ private:
     float zoom;
     int width;
     int height;
+    void wheelEvent ( QWheelEvent * event );
     QImage GenerateJulia(std::complex<float> &c, int n_max =200, int width=400, int height=400);
 
 };

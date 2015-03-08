@@ -31,7 +31,20 @@ MainWindow::MainWindow(QWidget *parent) :
    connect(ui->ZoomPlus, SIGNAL(clicked()), this, SLOT(ZoomPlus()));
    connect(ui->ZoomMinus, SIGNAL(clicked()), this, SLOT(ZoomMinus()));
 }
+void MainWindow::wheelEvent ( QWheelEvent * event )
+    {
+      //Add current step.
+      //event->delta() can be negative or positive
+     if(event->delta()/120 >0)
+     {
+         ZoomPlus();
+     }
+     else
+     {
+         ZoomMinus();
+     }
 
+    }
 MainWindow::~MainWindow()
 {
     delete ui;
