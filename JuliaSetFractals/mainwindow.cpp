@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
-
+#include <time.h>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->horizontalLayout_3->setAlignment(Qt::AlignLeft);
     width = 400;
     height = 400;
+
     //connect events
    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(DrawWithUserSize()));
    connect(ui->resetButton, SIGNAL(clicked()), this, SLOT(Reset()));
@@ -148,13 +149,21 @@ void MainWindow::Draw()
 
     //generate fractal and set it as Image
     QLabel *imageLabel = new QLabel;
-    imageLabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
-    //ui->imagelabel->setScaledContents(true);
-    //ui->imagelabel->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
-    //ui->scrollArea->setBackgroundRole(QPalette::Dark);
-    //ui->scrollArea = new QScrollArea;
+        clock_t tStart = clock();
+
+        if(!ui->SSEcheckBox->isChecked())
+        {
+             imageLabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
+        }
+        else
+        {
+            // with SSE FPU Julia
+        }
+
+     ui->TimeLabel->setText( "Generated in: "+QString::number((double)(clock() - tStart)/CLOCKS_PER_SEC)+"s");
+
     ui->scrollArea->setWidget(imageLabel);
-    // setCentralWidget(ui->scrollArea);
+
 }
 
 void MainWindow::resizeEvent(QResizeEvent * event )

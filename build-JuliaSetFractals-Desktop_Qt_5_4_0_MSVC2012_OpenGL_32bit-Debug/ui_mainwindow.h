@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -51,17 +52,20 @@ public:
     QHBoxLayout *horizontalLayout_4;
     QPushButton *ZoomPlus;
     QPushButton *ZoomMinus;
-    QGridLayout *gridLayout_5;
-    QPushButton *upButton;
-    QPushButton *downButton;
-    QPushButton *rightButton;
-    QPushButton *leftButton;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label;
     QLineEdit *widthEdit;
     QLabel *label_5;
     QLineEdit *heightEdit;
     QPushButton *resetButton;
+    QGridLayout *gridLayout_5;
+    QPushButton *upButton;
+    QPushButton *downButton;
+    QPushButton *rightButton;
+    QPushButton *leftButton;
+    QHBoxLayout *horizontalLayout_6;
+    QCheckBox *SSEcheckBox;
+    QLabel *TimeLabel;
     QGridLayout *gridLayout_2;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents_2;
@@ -109,7 +113,7 @@ public:
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setLayoutDirection(Qt::LeftToRight);
 
-        gridLayout->addWidget(pushButton, 5, 0, 1, 1);
+        gridLayout->addWidget(pushButton, 7, 0, 1, 1);
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
@@ -191,33 +195,7 @@ public:
         horizontalLayout_4->addWidget(ZoomMinus);
 
 
-        gridLayout->addLayout(horizontalLayout_4, 4, 0, 1, 1);
-
-        gridLayout_5 = new QGridLayout();
-        gridLayout_5->setSpacing(6);
-        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
-        upButton = new QPushButton(settingsBox);
-        upButton->setObjectName(QStringLiteral("upButton"));
-
-        gridLayout_5->addWidget(upButton, 0, 1, 1, 1);
-
-        downButton = new QPushButton(settingsBox);
-        downButton->setObjectName(QStringLiteral("downButton"));
-
-        gridLayout_5->addWidget(downButton, 2, 1, 1, 1);
-
-        rightButton = new QPushButton(settingsBox);
-        rightButton->setObjectName(QStringLiteral("rightButton"));
-
-        gridLayout_5->addWidget(rightButton, 1, 2, 1, 1);
-
-        leftButton = new QPushButton(settingsBox);
-        leftButton->setObjectName(QStringLiteral("leftButton"));
-
-        gridLayout_5->addWidget(leftButton, 1, 0, 1, 1);
-
-
-        gridLayout->addLayout(gridLayout_5, 3, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout_4, 6, 0, 1, 1);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -249,11 +227,53 @@ public:
         resetButton->setObjectName(QStringLiteral("resetButton"));
         resetButton->setCursor(QCursor(Qt::ArrowCursor));
 
-        gridLayout->addWidget(resetButton, 6, 0, 1, 1);
+        gridLayout->addWidget(resetButton, 8, 0, 1, 1);
 
-        label_3->raise();
-        pushButton->raise();
-        resetButton->raise();
+        gridLayout_5 = new QGridLayout();
+        gridLayout_5->setSpacing(6);
+        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
+        upButton = new QPushButton(settingsBox);
+        upButton->setObjectName(QStringLiteral("upButton"));
+
+        gridLayout_5->addWidget(upButton, 0, 1, 1, 1);
+
+        downButton = new QPushButton(settingsBox);
+        downButton->setObjectName(QStringLiteral("downButton"));
+
+        gridLayout_5->addWidget(downButton, 2, 1, 1, 1);
+
+        rightButton = new QPushButton(settingsBox);
+        rightButton->setObjectName(QStringLiteral("rightButton"));
+
+        gridLayout_5->addWidget(rightButton, 1, 2, 1, 1);
+
+        leftButton = new QPushButton(settingsBox);
+        leftButton->setObjectName(QStringLiteral("leftButton"));
+
+        gridLayout_5->addWidget(leftButton, 1, 0, 1, 1);
+
+
+        gridLayout->addLayout(gridLayout_5, 5, 0, 1, 1);
+
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setSpacing(6);
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        horizontalLayout_6->setSizeConstraint(QLayout::SetFixedSize);
+        SSEcheckBox = new QCheckBox(settingsBox);
+        SSEcheckBox->setObjectName(QStringLiteral("SSEcheckBox"));
+        SSEcheckBox->setMaximumSize(QSize(16777215, 20));
+
+        horizontalLayout_6->addWidget(SSEcheckBox);
+
+
+        gridLayout->addLayout(horizontalLayout_6, 3, 0, 1, 1);
+
+        TimeLabel = new QLabel(settingsBox);
+        TimeLabel->setObjectName(QStringLiteral("TimeLabel"));
+        TimeLabel->setMaximumSize(QSize(16777215, 20));
+
+        gridLayout->addWidget(TimeLabel, 4, 0, 1, 1);
+
 
         horizontalLayout_5->addWidget(settingsBox);
 
@@ -267,8 +287,6 @@ public:
         scrollAreaWidgetContents_2->setObjectName(QStringLiteral("scrollAreaWidgetContents_2"));
         scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 513, 540));
         scrollArea->setWidget(scrollAreaWidgetContents_2);
-        settingsBox->raise();
-        settingsBox->raise();
 
         gridLayout_2->addWidget(scrollArea, 4, 2, 1, 1);
 
@@ -305,13 +323,15 @@ public:
         label_2->setText(QApplication::translate("MainWindow", "N_MAX", 0));
         ZoomPlus->setText(QApplication::translate("MainWindow", "Zoom +", 0));
         ZoomMinus->setText(QApplication::translate("MainWindow", "Zoom -", 0));
+        label->setText(QApplication::translate("MainWindow", "width", 0));
+        label_5->setText(QApplication::translate("MainWindow", "height", 0));
+        resetButton->setText(QApplication::translate("MainWindow", "Reset", 0));
         upButton->setText(QApplication::translate("MainWindow", "Up", 0));
         downButton->setText(QApplication::translate("MainWindow", "Down", 0));
         rightButton->setText(QApplication::translate("MainWindow", "Right", 0));
         leftButton->setText(QApplication::translate("MainWindow", "Left", 0));
-        label->setText(QApplication::translate("MainWindow", "width", 0));
-        label_5->setText(QApplication::translate("MainWindow", "height", 0));
-        resetButton->setText(QApplication::translate("MainWindow", "Reset", 0));
+        SSEcheckBox->setText(QApplication::translate("MainWindow", "Hardware Acceleration", 0));
+        TimeLabel->setText(QApplication::translate("MainWindow", "Generated in:", 0));
     } // retranslateUi
 
 };
