@@ -40,6 +40,7 @@ private:
     int height;
     void wheelEvent ( QWheelEvent * event );
     QImage GenerateJulia(std::complex<float> &c, int n_max =200, int width=400, int height=400);
+	QImage GenerateJuliaSSE(double cx, double cy, int n_max = 200, int width = 400, int height = 400);
 
 };
 

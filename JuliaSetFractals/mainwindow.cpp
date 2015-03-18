@@ -157,7 +157,7 @@ void MainWindow::Draw()
         }
         else
         {
-            // with SSE FPU Julia
+			imageLabel->setPixmap(QPixmap::fromImage(GenerateJuliaSSE(user_Re, user_Im, n_max, width, height)));
         }
 
      ui->TimeLabel->setText( "Generated in: "+QString::number((double)(clock() - tStart)/CLOCKS_PER_SEC)+"s");
@@ -179,6 +179,49 @@ void MainWindow::resizeEvent(QResizeEvent * event )
 
 }
 
+QImage MainWindow::GenerateJuliaSSE(double cx, double cy, int n_max, int width, int height)
+{
+	width *= ((1 - zoom) * 4 + 1);
+	height *= ((1 - zoom) * 4 + 1);
+	QImage fractal(width, height, QImage::Format_RGB32);
+	QRgb value;
+	std::complex<float> nz;
+
+	//__asm{
+	//	mov al, 2
+	//	mov dx, 0xD007
+	//
+	//}
+	int x, y, i; double x2, y2, px, py, zx, zy, dx, dy;
+
+	px = cx;
+	py = cy;
+
+
+	for (int ui = 0; ui<width; ui++)
+	{
+		for (int vi = 0; vi<height; vi++)
+		{
+			zx = 3 * (((float)(ui) / (float)width)*zoom - 0.5f) + horizontal_shift;
+			zy = 3 * (((float)(vi) / (float)height)*zoom - 0.5f) + vertical_shift;
+			int n = 0;
+
+			for (n = 0; n<n_max; n++)
+			{
+				x2 = zx*zx, y2 = zy*zy;
+				if (x2 + y2 >4)
+					break;
+				zy = zx*zy * 2 + py;
+				zx = x2 - y2 + px;
+				
+			}
+			value = QColor::fromHsv(n % 256, 255, 255 * (n<n_max)).rgb();
+
+			fractal.setPixel(ui, vi, value);
+		}
+	}
+	return fractal;
+}
 QImage MainWindow::GenerateJulia(std::complex<float> &c, int n_max, int width, int height)
 {
     width*=((1 -zoom)*4+1);
