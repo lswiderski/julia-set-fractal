@@ -43,9 +43,6 @@ private:
     QImage GenerateJulia(std::complex<float> &c, int n_max =200, int width=400, int height=400);
 	QImage GenerateJuliaSSE(float cx, float cy, int n_max = 200, int width = 400, int height = 400);
 	QImage GenerateJuliaDoubles(double cx, double cy, int n_max = 200, int width = 400, int height = 400);
-	void drawMandelbrot(QImage *fractal,uint32_t *buffer, int xres, int yres);
-	__m128i IterateMandelbrot(__m128 a, __m128 b);
-
 };
 
 #endif // MAINWINDOW_H

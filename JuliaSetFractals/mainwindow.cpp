@@ -190,8 +190,6 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 	//std::complex<float> nz;
 
 	height += height % 4;
-	//uint32_t *buffer = new uint32_t[width*height];
-	//drawMandelbrot(&fractal,buffer, width, height);
 	float x2, y2;
 
 		float zx[4], zy[4];
@@ -341,80 +339,4 @@ QImage MainWindow::GenerateJulia(std::complex<float> &c, int n_max, int width, i
         }
     }
     return fractal;
-}
-void MainWindow::drawMandelbrot(QImage *fractal,uint32_t *buffer, int xres, int yres)
-{
-	__m128i *buffer4 = (__m128i*)buffer;
-	const __m128 ixres = _mm_set1_ps(1.0f / (float)xres);
-	const __m128 iyres = _mm_set1_ps(1.0f / (float)yres);
-	QRgb value;
-	for (int j = 0; j < yres; j++)
-		for (int i = 0; i < xres; i += 4)
-		{
-			__m128  a, b;
-			a = _mm_set_ps(i + 3, i + 2, i + 1, i + 0);
-			a = _mm_mul_ps(a, ixres);
-			a = _mm_mul_ps(a, _mm_set1_ps(3.00f));
-			a = _mm_add_ps(a, _mm_set1_ps(-2.25f));
-
-			b = _mm_set1_ps((float)j);
-			b = _mm_mul_ps(b, iyres);
-			b = _mm_mul_ps(b, _mm_set1_ps(-2.24f));
-			b = _mm_add_ps(b, _mm_set1_ps(1.12f));
-
-			_mm_store_si128(buffer4++, IterateMandelbrot(a, b));
-
-			int *fresult = (int*)buffer4;
-			for (int z = 0; z < 4; z++)
-			{
-				value = QColor::fromRgb(fresult[z], fresult[z]<<4, fresult[z]<<8).rgb();
-
-				fractal->setPixel(i, j, value);
-			}
-
-		}
-}
-__m128i MainWindow::IterateMandelbrot(__m128 a, __m128 b)
-{
-	__m128  x, y, x2, y2, m2;
-	__m128  co, ite;
-
-	unsigned int i;
-
-	const __m128 one = _mm_set1_ps(1.0f);
-	const __m128 th = _mm_set1_ps(4.0f);
-
-	x = _mm_setzero_ps();
-	y = _mm_setzero_ps();
-	x2 = _mm_setzero_ps();
-	y2 = _mm_setzero_ps();
-	co = _mm_setzero_ps();
-	ite = _mm_setzero_ps();
-
-	// iterate f(Z) = Z^2 + C,  Z0 = 0
-	for (i = 0; i < 512; i++)
-	{
-		y = _mm_mul_ps(x, y);
-		y = _mm_add_ps(_mm_add_ps(y, y), b);
-		x = _mm_add_ps(_mm_sub_ps(x2, y2), a);
-
-		x2 = _mm_mul_ps(x, x);
-		y2 = _mm_mul_ps(y, y);
-
-		m2 = _mm_add_ps(x2, y2);
-		co = _mm_or_ps(co, _mm_cmpgt_ps(m2, th));
-
-
-		ite = _mm_add_ps(ite, _mm_andnot_ps(co, one));
-		if (_mm_movemask_ps(co) == 0x0f)
-			i = 512;
-	}
-
-	// create color
-	const __m128i bb = _mm_cvtps_epi32(ite);
-	const __m128i gg = _mm_slli_si128(bb, 1);
-	const __m128i rr = _mm_slli_si128(bb, 2);
-	const __m128i color = _mm_or_si128(_mm_or_si128(rr, gg), bb);
-
-	return(color);
 }
