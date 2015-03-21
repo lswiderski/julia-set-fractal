@@ -181,7 +181,7 @@ void MainWindow::resizeEvent(QResizeEvent * event )
 
 }
 
-QImage MainWindow::GenerateJuliaSSE(double cx, double cy, int n_max, int width, int height)
+QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, int height)
 {
 	width *= ((1 - zoom) * 4 + 1);
 	height *= ((1 - zoom) * 4 + 1);
@@ -202,6 +202,7 @@ QImage MainWindow::GenerateJuliaSSE(double cx, double cy, int n_max, int width, 
 		for (int vi = 0; vi<height; vi+=4)
 		{
 			float result = 0;
+			int resul2=0;
 			int until = 4;
 			for (int z = 0; z <4; z++)
 			{
@@ -212,60 +213,66 @@ QImage MainWindow::GenerateJuliaSSE(double cx, double cy, int n_max, int width, 
 			
 	
 	
-			__m128 MZX = _mm_set_ps(zx[3],zx[2],zx[1],zx[0]);
+			__m128 MZX = _mm_set_ps(zx[3], zx[2], zx[1], zx[0]);
 			__m128 MZY = _mm_set_ps(zy[3], zy[2], zy[1], zy[0]);
-			__m128 MCX = _mm_set_ps(cx,cx,cx,cx);
-			__m128 MCY = _mm_set_ps(cy,cy,cy,cy);
-			__m128 MRESULT = _mm_set_ps(result, result, result, result);
-			__m128 MUNTIL = _mm_set_ps(4, 4, 4, 4);
+			__m128 MCX = _mm_set_ps(cx, cx, cx, cx);
+			__m128 MCY = _mm_set_ps(cy, cy, cy, cy);
+			__m128 MRESULT = _mm_set_ps(0.0f, 0.0f, 0.0f, 0.0f);
+			__m128 MUNTIL = _mm_set_ps(4.0f, 4.0f, 4.0f, 4.0f);
+			__m128 VARCMP = _mm_set_ps(1.0f, 1.0f, 1.0f, 1.0f);
 			__asm{
 				; init
-				MOVAPS xmm0, MZX
-				MOVAPS xmm1, MZY
-				MOVAPS xmm4, MCX
-				MOVAPS xmm5, MCY
-				MOVAPS xmm6, MRESULT
-				MOVAPS xmm7, MUNTIL
-	
-				MOVAPS xmm0, xmm4
-					XORPS  xmm6, xmm6
-					MOVAPS xmm1, xmm5
+					MOVAPS xmm0, MZX
+					MOVAPS xmm1, MZY
+					
+					MOVAPS xmm6, MUNTIL
+					MOVAPS xmm7, MRESULT
+
 					mov ecx, n_max
 				ILOOP :
-				; xmm0 = zx             xmm1 = zy
-					MOVAPS xmm2, xmm0
-					MULPS  xmm0, xmm0
-					MOVAPS xmm3, xmm1
-					ADDPS  xmm1, xmm1
-					; xmm0 = zx ^ 2           xmm1 = 2 * zy     xmm2 = zx           xmm3 = zy
-					MULPS  xmm1, xmm2
-					MOVAPS xmm2, xmm0
-					MULPS  xmm3, xmm3
-					; xmm0 = zx ^ 2           xmm1 = 2 * zy*zx    xmm2 = zx ^ 2         xmm3 = zy ^ 2
-					ADDPS  xmm1, xmm5
-					SUBPS  xmm0, xmm3
-					ADDPS  xmm2, xmm3
-					; xmm0 = zx ^ 2 - zy ^ 2    xmm1 = 2 * zy*zx + py   xmm2 = zx ^ 2 + zy ^ 2  xmm3 = zy ^ 2
-					CMPLEPS xmm2, xmm7
-					ADDPS   xmm0, xmm4
-					MOVMSKPS eax, xmm2
-					test eax, eax
-					jz EXIT
-					ANDPS   xmm2, xmm7; xmm6 += (xmm2 < 4.0) ? 4.0 : 0.0;
-				ADDPS   xmm6, xmm2
+
+				; x2 = zx*zx
+					movaps xmm2, xmm0
+					mulps xmm2, xmm0
+
+					; y2 = zy*zy
+					movaps xmm3, xmm1
+					mulps xmm3, xmm1
+
+					movaps xmm4, xmm1; tmp1 = zy
+					mulps xmm4, xmm0; tmp1 = zx*zy
+					addps xmm4, xmm4; tmp1 = zx*zy * 2
+					addps xmm4, MCY;  tmp1 = zx*zy * 2 + cy
+					movaps xmm1, xmm4; zy = tmp1
+
+					movaps xmm4, xmm2; tmp1 = x2
+					subps xmm4, xmm3; tmp1 = x2 - y2
+					addps xmm4, MCX; tmp1 = x2 - y2 + cx
+					movaps xmm0, xmm4; zx = x2 - y2 + cx
+
+					movaps xmm4, xmm2
+					addps xmm4, xmm3; tmp1 = x2 + y2
+
+					movaps xmm5, xmm6; tmp2 = 4;
+					CMPNLEPS xmm5, xmm4; true  if (4 < x2 + y2)    FFFFFFFF x4
+					andps xmm5, VARCMP; liczba do dodania 1, 1, 1, 1 lub 1, 0, 0, 1 etc
+					addps xmm7, xmm5
+
 					sub ecx, 1
 					jnz ILOOP
 				EXIT :
-				MOVAPS MRESULT, xmm6
+				movaps MRESULT, xmm7
+
 			}
 			float fresult[4];
-			_mm_store_ps(fresult, MRESULT);
+			_mm_storeu_ps(fresult, MRESULT);
 			for(int z = 0; z <4; z++)
 			{
-				buffer.push_back(fresult[z]);
-				//value = QColor::fromHsv((int)result % 256, 255, 255 * ((int)result<n_max)).rgb();
 
-				//fractal.setPixel(ui, vi, value);
+				buffer.push_back(fresult[z]);
+				value = QColor::fromHsv(((int)fresult[z]) % 256, 255, 255 * (((int)fresult[z])<n_max)).rgb();
+
+				fractal.setPixel(ui, vi+z, value);
 			}
 			
 		
@@ -293,11 +300,13 @@ QImage MainWindow::GenerateJuliaDoubles(double cx, double cy, int n_max, int wid
 			for (n = 0; n<n_max; n++)
 			{
 				x2 = zx*zx, y2 = zy*zy;
-				if (x2 + y2 >4)
-					break;
-				zy = zx*zy * 2 + cy;
+				
+				float tmp1 = zy*zx;
+				tmp1 += tmp1;
+				zy = zy*zx* 2 + cy;
 				zx = x2 - y2 + cx;
-
+				if (4 < x2 + y2)
+					break;
 			}
 			value = QColor::fromHsv(n % 256, 255, 255 * (n<n_max)).rgb();
 
