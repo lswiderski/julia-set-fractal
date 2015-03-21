@@ -155,8 +155,8 @@ void MainWindow::Draw()
 
         if(!ui->SSEcheckBox->isChecked())
         {
-             //imageLabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
-			imageLabel->setPixmap(QPixmap::fromImage(GenerateJuliaDoubles(user_Re, user_Im, n_max, width, height)));
+             imageLabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
+			//imageLabel->setPixmap(QPixmap::fromImage(GenerateJuliaDoubles(user_Re, user_Im, n_max, width, height)));
         }
         else
         {
@@ -211,7 +211,7 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 
 			
 	
-	
+			__m128 TMP1, TMP2;
 			__m128 MZX = _mm_set_ps(zx[3], zx[2], zx[1], zx[0]);
 			__m128 MZY = _mm_set_ps(zy[3], zy[2], zy[1], zy[0]);
 			__m128 MCX = _mm_set_ps(cx, cx, cx, cx);
@@ -219,6 +219,7 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 			__m128 MRESULT = _mm_set_ps(0.0f, 0.0f, 0.0f, 0.0f);
 			__m128 MUNTIL = _mm_set_ps(4.0f, 4.0f, 4.0f, 4.0f);
 			__m128 VARCMP = _mm_set_ps(1.0f, 1.0f, 1.0f, 1.0f);
+			__m128 VARMAX = _mm_set_ps(10000.0f, 10000.0f, 10000.0f, 10000.0f);
 			__asm{
 				; init
 					MOVAPS xmm0, MZX
@@ -238,6 +239,10 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 					movaps xmm3, xmm1
 					mulps xmm3, xmm1
 
+					;zabezpiecznie przed wyjscie poza zakres
+					minps xmm2, VARMAX
+					minps xmm3, VARMAX
+
 					movaps xmm4, xmm1; tmp1 = zy
 					mulps xmm4, xmm0; tmp1 = zx*zy
 					addps xmm4, xmm4; tmp1 = zx*zy * 2
@@ -249,14 +254,21 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 					addps xmm4, MCX; tmp1 = x2 - y2 + cx
 					movaps xmm0, xmm4; zx = x2 - y2 + cx
 
+				
+					movaps TMP1, xmm2
+					movaps TMP2, xmm3
+
 					movaps xmm4, xmm2
 					addps xmm4, xmm3; tmp1 = x2 + y2
-
+					movaps TMP2, xmm4
 					movaps xmm5, xmm6; tmp2 = 4;
-					CMPNLEPS xmm5, xmm4; true  if (4 < x2 + y2)    FFFFFFFF x4
-					andps xmm5, VARCMP; liczba do dodania 1, 1, 1, 1 lub 1, 0, 0, 1 etc
-					addps xmm7, xmm5
 
+					CMPNLEPS xmm5, xmm4; true  if (4 < x2 + y2)    FFFFFFFF x4
+						
+						
+					andps xmm5, VARCMP; liczba do dodania 1, 1, 1, 1 lub 1, 0, 0, 1 etc
+
+					addps xmm7, xmm5
 					sub ecx, 1
 					jnz ILOOP
 				EXIT :
@@ -279,7 +291,7 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 	}
 	return fractal;
 }
-QImage MainWindow::GenerateJuliaDoubles(double cx, double cy, int n_max, int width, int height)
+QImage MainWindow::GenerateJuliaDoubles(float cx, float cy, int n_max, int width, int height)
 {
 	width *= ((1 - zoom) * 4 + 1);
 	height *= ((1 - zoom) * 4 + 1);
@@ -306,6 +318,7 @@ QImage MainWindow::GenerateJuliaDoubles(double cx, double cy, int n_max, int wid
 					break;
 				
 			}
+			n;
 			value = QColor::fromHsv(n % 256, 255, 255 * (n<n_max)).rgb();
 
 			fractal.setPixel(ui, vi, value);
