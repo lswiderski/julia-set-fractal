@@ -155,7 +155,8 @@ void MainWindow::Draw()
 
         if(!ui->SSEcheckBox->isChecked())
         {
-             imageLabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
+             //imageLabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
+			imageLabel->setPixmap(QPixmap::fromImage(GenerateJuliaDoubles(user_Re, user_Im, n_max, width, height)));
         }
         else
         {
@@ -189,7 +190,7 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 	QRgb value;
 	//std::complex<float> nz;
 
-	height += height % 4;
+	//height += height % 4;
 	float x2, y2;
 
 		float zx[4], zy[4];
@@ -204,7 +205,7 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 			int until = 4;
 			for (int z = 0; z <4; z++)
 			{
-				zx[z] = 3 * (((float)(ui+z) / (float)width)*zoom - 0.5f) + horizontal_shift;
+				zx[z] = 3 * (((float)(ui) / (float)width)*zoom - 0.5f) + horizontal_shift;
 				zy[z] = 3 * (((float)(vi+z) / (float)height)*zoom - 0.5f) + vertical_shift;
 			}
 
@@ -294,17 +295,16 @@ QImage MainWindow::GenerateJuliaDoubles(double cx, double cy, int n_max, int wid
 			zx = 3 * (((float)(ui) / (float)width)*zoom - 0.5f) + horizontal_shift;
 			zy = 3 * (((float)(vi) / (float)height)*zoom - 0.5f) + vertical_shift;
 			int n = 0;
-
 			for (n = 0; n<n_max; n++)
 			{
 				x2 = zx*zx, y2 = zy*zy;
 				
-				float tmp1 = zy*zx;
-				tmp1 += tmp1;
+
 				zy = zy*zx* 2 + cy;
 				zx = x2 - y2 + cx;
 				if (4 < x2 + y2)
 					break;
+				
 			}
 			value = QColor::fromHsv(n % 256, 255, 255 * (n<n_max)).rgb();
 
@@ -320,6 +320,7 @@ QImage MainWindow::GenerateJulia(std::complex<float> &c, int n_max, int width, i
     QImage fractal(width,height,QImage::Format_RGB32);
     QRgb value;
     std::complex<float> nz;
+	std::vector<float> buffer;
     for(int ui = 0 ; ui<width ; ui++)
     {
         for(int vi = 0 ; vi<height ; vi++)
@@ -334,7 +335,7 @@ QImage MainWindow::GenerateJulia(std::complex<float> &c, int n_max, int width, i
                 if(std::abs(nz)>4)break;
             }
             value = QColor::fromHsv(n%256,255,255*(n<n_max)).rgb();
-
+			buffer.push_back(n);
             fractal.setPixel(ui,vi,value);
         }
     }
