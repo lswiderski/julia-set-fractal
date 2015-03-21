@@ -188,14 +188,9 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 	height *= ((1 - zoom) * 4 + 1);
 	QImage fractal(width, height, QImage::Format_RGB32);
 	QRgb value;
-	//std::complex<float> nz;
 
-	//height += height % 4;
 	float x2, y2;
-
-		float zx[4], zy[4];
-		
-		std::vector<float> buffer;
+	float zx[4], zy[4];
 	for (int ui = 0; ui<width; ui++)
 	{
 		for (int vi = 0; vi<height; vi+=4)
@@ -210,8 +205,6 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 			}
 
 			
-	
-			__m128 TMP1, TMP2;
 			__m128 MZX = _mm_set_ps(zx[3], zx[2], zx[1], zx[0]);
 			__m128 MZY = _mm_set_ps(zy[3], zy[2], zy[1], zy[0]);
 			__m128 MCX = _mm_set_ps(cx, cx, cx, cx);
@@ -221,7 +214,7 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 			__m128 VARCMP = _mm_set_ps(1.0f, 1.0f, 1.0f, 1.0f);
 			__m128 VARMAX = _mm_set_ps(10000.0f, 10000.0f, 10000.0f, 10000.0f);
 			__asm{
-				; init
+					; init
 					MOVAPS xmm0, MZX
 					MOVAPS xmm1, MZY
 					
@@ -231,7 +224,7 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 					mov ecx, n_max
 				ILOOP :
 
-				; x2 = zx*zx
+					; x2 = zx*zx
 					movaps xmm2, xmm0
 					mulps xmm2, xmm0
 
@@ -254,13 +247,8 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 					addps xmm4, MCX; tmp1 = x2 - y2 + cx
 					movaps xmm0, xmm4; zx = x2 - y2 + cx
 
-				
-					movaps TMP1, xmm2
-					movaps TMP2, xmm3
-
 					movaps xmm4, xmm2
 					addps xmm4, xmm3; tmp1 = x2 + y2
-					movaps TMP2, xmm4
 					movaps xmm5, xmm6; tmp2 = 4;
 
 					CMPNLEPS xmm5, xmm4; true  if (4 < x2 + y2)    FFFFFFFF x4
@@ -272,21 +260,19 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 					sub ecx, 1
 					jnz ILOOP
 				EXIT :
-				movaps MRESULT, xmm7
+					movaps MRESULT, xmm7
 
 			}
+
 			float fresult[4];
 			_mm_storeu_ps(fresult, MRESULT);
+
 			for(int z = 0; z <4; z++)
 			{
-
-				buffer.push_back(fresult[z]);
 				value = QColor::fromHsv(((int)fresult[z]) % 256, 255, 255 * (((int)fresult[z])<n_max)).rgb();
-
 				fractal.setPixel(ui, vi+z, value);
 			}
 			
-		
 		}
 	}
 	return fractal;
@@ -333,7 +319,6 @@ QImage MainWindow::GenerateJulia(std::complex<float> &c, int n_max, int width, i
     QImage fractal(width,height,QImage::Format_RGB32);
     QRgb value;
     std::complex<float> nz;
-	std::vector<float> buffer;
     for(int ui = 0 ; ui<width ; ui++)
     {
         for(int vi = 0 ; vi<height ; vi++)
@@ -348,7 +333,6 @@ QImage MainWindow::GenerateJulia(std::complex<float> &c, int n_max, int width, i
                 if(std::abs(nz)>4)break;
             }
             value = QColor::fromHsv(n%256,255,255*(n<n_max)).rgb();
-			buffer.push_back(n);
             fractal.setPixel(ui,vi,value);
         }
     }
