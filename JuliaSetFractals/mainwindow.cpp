@@ -186,10 +186,9 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 {
 	width *= ((1 - zoom) * 4 + 1);
 	height *= ((1 - zoom) * 4 + 1);
-	width = width + (width % 4);
+	width = width - (width % 4);
 	QImage fractal(width, height, QImage::Format_RGB32);
 	QRgb value;
-
 	float x2, y2;
 	float zx[4], zy[4];
 	for (int vi = 0; vi<height; vi++ )
