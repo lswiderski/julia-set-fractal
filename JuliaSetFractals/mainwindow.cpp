@@ -155,8 +155,8 @@ void MainWindow::Draw()
 
         if(!ui->SSEcheckBox->isChecked())
         {
-             imageLabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
-			//imageLabel->setPixmap(QPixmap::fromImage(GenerateJuliaDoubles(user_Re, user_Im, n_max, width, height)));
+             //imageLabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
+			imageLabel->setPixmap(QPixmap::fromImage(GenerateJuliaDoubles(user_Re, user_Im, n_max, width, height)));
         }
         else
         {
@@ -195,9 +195,6 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 	{
 		for (int vi = 0; vi<height; vi+=4)
 		{
-			float result = 0;
-			int resul2=0;
-			int until = 4;
 			for (int z = 0; z <4; z++)
 			{
 				zx[z] = 3 * (((float)(ui) / (float)width)*zoom - 0.5f) + horizontal_shift;
@@ -212,7 +209,7 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 			__m128 MRESULT = _mm_set_ps(0.0f, 0.0f, 0.0f, 0.0f);
 			__m128 MUNTIL = _mm_set_ps(4.0f, 4.0f, 4.0f, 4.0f);
 			__m128 VARCMP = _mm_set_ps(1.0f, 1.0f, 1.0f, 1.0f);
-			__m128 VARMAX = _mm_set_ps(10000.0f, 10000.0f, 10000.0f, 10000.0f);
+			__m128 VARMAX = _mm_set_ps(1000.0f, 1000.0f, 1000.0f, 1000.0f);
 			__asm{
 					; init
 					MOVAPS xmm0, MZX
@@ -232,7 +229,7 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 					movaps xmm3, xmm1
 					mulps xmm3, xmm1
 
-					;zabezpiecznie przed wyjscie poza zakres
+					; zabezpiecznie przed wyjscie poza zakres
 					minps xmm2, VARMAX
 					minps xmm3, VARMAX
 
@@ -251,11 +248,13 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 					addps xmm4, xmm3; tmp1 = x2 + y2
 					movaps xmm5, xmm6; tmp2 = 4;
 
-					CMPNLEPS xmm5, xmm4; true  if (4 < x2 + y2)    FFFFFFFF x4
-						
+					cmpnleps xmm5, xmm4; true  if (4 < x2 + y2)    FFFFFFFF x4
+					movmskps eax, xmm5; cos ala break
+					test eax, eax
+					jz EXIT
 						
 					andps xmm5, VARCMP; liczba do dodania 1, 1, 1, 1 lub 1, 0, 0, 1 etc
-
+					
 					addps xmm7, xmm5
 					sub ecx, 1
 					jnz ILOOP
