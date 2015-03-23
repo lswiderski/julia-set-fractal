@@ -186,19 +186,20 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 {
 	width *= ((1 - zoom) * 4 + 1);
 	height *= ((1 - zoom) * 4 + 1);
+	width = width + (width % 4);
 	QImage fractal(width, height, QImage::Format_RGB32);
 	QRgb value;
 
 	float x2, y2;
 	float zx[4], zy[4];
-	for (int ui = 0; ui<width; ui++)
+	for (int vi = 0; vi<height; vi++ )
 	{
-		for (int vi = 0; vi<height; vi+=4)
+		for (int ui = 0; ui<width; ui += 4)
 		{
 			for (int z = 0; z <4; z++)
 			{
-				zx[z] = 3 * (((float)(ui) / (float)width)*zoom - 0.5f) + horizontal_shift;
-				zy[z] = 3 * (((float)(vi+z) / (float)height)*zoom - 0.5f) + vertical_shift;
+				zx[z] = 3 * (((float)(ui+z) / (float)width)*zoom - 0.5f) + horizontal_shift;
+				zy[z] = 3 * (((float)(vi) / (float)height)*zoom - 0.5f) + vertical_shift;
 			}
 
 			
@@ -269,7 +270,7 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 			for(int z = 0; z <4; z++)
 			{
 				value = QColor::fromHsv(((int)fresult[z]) % 256, 255, 255 * (((int)fresult[z])<n_max)).rgb();
-				fractal.setPixel(ui, vi+z, value);
+				fractal.setPixel(ui+z, vi, value);
 			}
 			
 		}
