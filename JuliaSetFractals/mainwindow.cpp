@@ -223,11 +223,11 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 
 					; x2 = zx*zx
 					movaps xmm2, xmm0
-					mulps xmm2, xmm0
+					mulps xmm2, xmm2
 
 					; y2 = zy*zy
 					movaps xmm3, xmm1
-					mulps xmm3, xmm1
+					mulps xmm3, xmm3
 
 					; zabezpiecznie przed wyjscie poza zakres
 					minps xmm2, VARMAX
