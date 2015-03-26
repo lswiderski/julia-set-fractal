@@ -84,8 +84,6 @@ void MainWindow::MoveRight()
 void MainWindow::ZoomPlus()
 {
     zoom-=0.1f;
-    //horizontal_shift+=(50*zoom);
-    //vertical_shift+=(50*zoom);
     Draw();
 }
 void MainWindow::ZoomMinus()
@@ -155,8 +153,8 @@ void MainWindow::Draw()
 
         if(!ui->SSEcheckBox->isChecked())
         {
-             //imageLabel->setPixmap(QPixmap::fromImage(GenerateJulia(c,n_max,width,height)));
-			imageLabel->setPixmap(QPixmap::fromImage(GenerateJuliaDoubles(user_Re, user_Im, n_max, width, height)));
+             //imageLabel->setPixmap(QPixmap::fromImage(GenerateJuliaSlow(c,n_max,width,height)));
+			imageLabel->setPixmap(QPixmap::fromImage(GenerateJulia(user_Re, user_Im, n_max, width, height)));
         }
         else
         {
@@ -276,7 +274,7 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 	}
 	return fractal;
 }
-QImage MainWindow::GenerateJuliaDoubles(float cx, float cy, int n_max, int width, int height)
+QImage MainWindow::GenerateJulia(float cx, float cy, int n_max, int width, int height)
 {
 	width *= ((1 - zoom) * 4 + 1);
 	height *= ((1 - zoom) * 4 + 1);
@@ -311,7 +309,7 @@ QImage MainWindow::GenerateJuliaDoubles(float cx, float cy, int n_max, int width
 	}
 	return fractal;
 }
-QImage MainWindow::GenerateJulia(std::complex<float> &c, int n_max, int width, int height)
+QImage MainWindow::GenerateJuliaSlow(std::complex<float> &c, int n_max, int width, int height)
 {
     width*=((1 -zoom)*4+1);
     height*=((1 -zoom)*4+1);

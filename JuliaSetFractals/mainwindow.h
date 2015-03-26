@@ -40,9 +40,9 @@ private:
     int width;
     int height;
     void wheelEvent ( QWheelEvent * event );
-    QImage GenerateJulia(std::complex<float> &c, int n_max =200, int width=400, int height=400);
+    QImage GenerateJuliaSlow(std::complex<float> &c, int n_max =200, int width=400, int height=400);
 	QImage GenerateJuliaSSE(float cx, float cy, int n_max = 200, int width = 400, int height = 400);
-	QImage GenerateJuliaDoubles(float cx, float cy, int n_max = 200, int width = 400, int height = 400);
+	QImage GenerateJulia(float cx, float cy, int n_max = 200, int width = 400, int height = 400);
 };
 
 #endif // MAINWINDOW_H
