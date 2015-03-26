@@ -187,27 +187,29 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 	width = width - (width % 4);
 	QImage fractal(width, height, QImage::Format_RGB32);
 	QRgb value;
-	float x2, y2;
-	float zx[4], zy[4];
+	float x2, y2,compare =1.0f,until = 4.0f,maxx = 100.0f;
+	float zx[4], zy[4], fresult[4];
 	for (int vi = 0; vi<height; vi++ )
 	{
 		for (int ui = 0; ui<width; ui += 4)
 		{
-			for (int z = 0; z <4; z++)
+
+			for (int z = 0; z < 4 ; z++)
 			{
+				fresult[z] = 0;
+
 				zx[z] = 3 * (((float)(ui+z) / (float)width)*zoom - 0.5f) + horizontal_shift;
 				zy[z] = 3 * (((float)(vi) / (float)height)*zoom - 0.5f) + vertical_shift;
 			}
 
-			
-			__m128 MZX = _mm_set_ps(zx[3], zx[2], zx[1], zx[0]);
-			__m128 MZY = _mm_set_ps(zy[3], zy[2], zy[1], zy[0]);
-			__m128 MCX = _mm_set_ps(cx, cx, cx, cx);
-			__m128 MCY = _mm_set_ps(cy, cy, cy, cy);
-			__m128 MRESULT = _mm_set_ps(0.0f, 0.0f, 0.0f, 0.0f);
-			__m128 MUNTIL = _mm_set_ps(4.0f, 4.0f, 4.0f, 4.0f);
-			__m128 VARCMP = _mm_set_ps(1.0f, 1.0f, 1.0f, 1.0f);
-			__m128 VARMAX = _mm_set_ps(1000.0f, 1000.0f, 1000.0f, 1000.0f);
+			__m128 MRESULT = _mm_loadr_ps(fresult);
+			__m128 MZX = _mm_loadr_ps(zx);
+			__m128 MZY = _mm_loadr_ps(zy);
+			__m128 MCX = _mm_load1_ps(&cx);
+			__m128 MCY = _mm_load1_ps(&cy);
+			__m128 MUNTIL = _mm_load1_ps(&until);
+			__m128 VARCMP = _mm_load1_ps(&compare);
+			__m128 VARMAX = _mm_load1_ps(&maxx);
 			__asm{
 					; init
 					MOVAPS xmm0, MZX
@@ -260,8 +262,6 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 					movaps MRESULT, xmm7
 
 			}
-
-			float fresult[4];
 			_mm_storeu_ps(fresult, MRESULT);
 
 			for(int z = 0; z <4; z++)
