@@ -4,6 +4,7 @@
 #include <time.h>
 #include <intrin.h>
 #include <stdlib.h>
+#include "openglwindow.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -33,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
    connect(ui->rightButton, SIGNAL(clicked()), this, SLOT(MoveRight()));
    connect(ui->ZoomPlus, SIGNAL(clicked()), this, SLOT(ZoomPlus()));
    connect(ui->ZoomMinus, SIGNAL(clicked()), this, SLOT(ZoomMinus()));
+   connect(ui->openNewWindow, SIGNAL(clicked()), this, SLOT(on_openWindow()));
 }
 void MainWindow::wheelEvent ( QWheelEvent * event )
     {
@@ -90,6 +92,13 @@ void MainWindow::ZoomMinus()
 {
     zoom+=0.1f;
     Draw();
+}
+void MainWindow::on_openWindow()
+{
+	OpenGLWindow secondwindow;
+	secondwindow.setModal(true);
+	secondwindow.exec();
+
 }
 
 void MainWindow::DrawWithUserSize()
@@ -202,9 +211,9 @@ QImage MainWindow::GenerateJuliaSSE(float cx, float cy, int n_max, int width, in
 				zy[z] = 3 * (((float)(vi) / (float)height)*zoom - 0.5f) + vertical_shift;
 			}
 
-			__m128 MRESULT = _mm_loadr_ps(fresult);
-			__m128 MZX = _mm_loadr_ps(zx);
-			__m128 MZY = _mm_loadr_ps(zy);
+			__m128 MRESULT = _mm_load_ps(fresult);
+			__m128 MZX = _mm_load_ps(zx);
+			__m128 MZY = _mm_load_ps(zy);
 			__m128 MCX = _mm_load1_ps(&cx);
 			__m128 MCY = _mm_load1_ps(&cy);
 			__m128 MUNTIL = _mm_load1_ps(&until);

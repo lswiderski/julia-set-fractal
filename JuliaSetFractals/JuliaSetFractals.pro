@@ -13,8 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    openglwindow.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    openglwindow.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    openglwindow.ui

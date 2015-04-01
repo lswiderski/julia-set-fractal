@@ -40,18 +40,15 @@ public:
     QGroupBox *settingsBox;
     QGridLayout *gridLayout;
     QPushButton *pushButton;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *label_2;
+    QLineEdit *N_MAXEdit;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLabel *label_3;
     QLineEdit *ReEdit;
     QLabel *label_4;
     QLineEdit *ImEdit;
-    QHBoxLayout *horizontalLayout_3;
-    QLabel *label_2;
-    QLineEdit *N_MAXEdit;
-    QHBoxLayout *horizontalLayout_4;
-    QPushButton *ZoomPlus;
-    QPushButton *ZoomMinus;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label;
     QLineEdit *widthEdit;
@@ -66,6 +63,10 @@ public:
     QHBoxLayout *horizontalLayout_6;
     QCheckBox *SSEcheckBox;
     QLabel *TimeLabel;
+    QHBoxLayout *horizontalLayout_4;
+    QPushButton *ZoomPlus;
+    QPushButton *ZoomMinus;
+    QPushButton *openNewWindow;
     QGridLayout *gridLayout_2;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents_2;
@@ -115,6 +116,36 @@ public:
 
         gridLayout->addWidget(pushButton, 7, 0, 1, 1);
 
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_3->setSizeConstraint(QLayout::SetDefaultConstraint);
+        horizontalLayout_3->setContentsMargins(-1, -1, 70, -1);
+        label_2 = new QLabel(settingsBox);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Minimum);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
+        label_2->setSizePolicy(sizePolicy1);
+        label_2->setMaximumSize(QSize(50, 16777215));
+        label_2->setLayoutDirection(Qt::LeftToRight);
+        label_2->setAutoFillBackground(false);
+        label_2->setFrameShape(QFrame::NoFrame);
+        label_2->setFrameShadow(QFrame::Plain);
+        label_2->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+
+        horizontalLayout_3->addWidget(label_2);
+
+        N_MAXEdit = new QLineEdit(settingsBox);
+        N_MAXEdit->setObjectName(QStringLiteral("N_MAXEdit"));
+        N_MAXEdit->setMaximumSize(QSize(40, 16777215));
+
+        horizontalLayout_3->addWidget(N_MAXEdit);
+
+
+        gridLayout->addLayout(horizontalLayout_3, 1, 0, 1, 1);
+
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
@@ -149,53 +180,6 @@ public:
 
 
         gridLayout->addLayout(verticalLayout, 0, 0, 1, 1);
-
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setSpacing(6);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        horizontalLayout_3->setSizeConstraint(QLayout::SetDefaultConstraint);
-        horizontalLayout_3->setContentsMargins(-1, -1, 70, -1);
-        label_2 = new QLabel(settingsBox);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Minimum);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
-        label_2->setSizePolicy(sizePolicy1);
-        label_2->setMaximumSize(QSize(50, 16777215));
-        label_2->setLayoutDirection(Qt::LeftToRight);
-        label_2->setAutoFillBackground(false);
-        label_2->setFrameShape(QFrame::NoFrame);
-        label_2->setFrameShadow(QFrame::Plain);
-        label_2->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-
-        horizontalLayout_3->addWidget(label_2);
-
-        N_MAXEdit = new QLineEdit(settingsBox);
-        N_MAXEdit->setObjectName(QStringLiteral("N_MAXEdit"));
-        N_MAXEdit->setMaximumSize(QSize(40, 16777215));
-
-        horizontalLayout_3->addWidget(N_MAXEdit);
-
-
-        gridLayout->addLayout(horizontalLayout_3, 1, 0, 1, 1);
-
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setSpacing(6);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        horizontalLayout_4->setSizeConstraint(QLayout::SetFixedSize);
-        ZoomPlus = new QPushButton(settingsBox);
-        ZoomPlus->setObjectName(QStringLiteral("ZoomPlus"));
-
-        horizontalLayout_4->addWidget(ZoomPlus);
-
-        ZoomMinus = new QPushButton(settingsBox);
-        ZoomMinus->setObjectName(QStringLiteral("ZoomMinus"));
-
-        horizontalLayout_4->addWidget(ZoomMinus);
-
-
-        gridLayout->addLayout(horizontalLayout_4, 6, 0, 1, 1);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -274,6 +258,28 @@ public:
 
         gridLayout->addWidget(TimeLabel, 4, 0, 1, 1);
 
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setSizeConstraint(QLayout::SetFixedSize);
+        ZoomPlus = new QPushButton(settingsBox);
+        ZoomPlus->setObjectName(QStringLiteral("ZoomPlus"));
+
+        horizontalLayout_4->addWidget(ZoomPlus);
+
+        ZoomMinus = new QPushButton(settingsBox);
+        ZoomMinus->setObjectName(QStringLiteral("ZoomMinus"));
+
+        horizontalLayout_4->addWidget(ZoomMinus);
+
+
+        gridLayout->addLayout(horizontalLayout_4, 6, 0, 1, 1);
+
+        openNewWindow = new QPushButton(settingsBox);
+        openNewWindow->setObjectName(QStringLiteral("openNewWindow"));
+
+        gridLayout->addWidget(openNewWindow, 9, 0, 1, 1);
+
 
         horizontalLayout_5->addWidget(settingsBox);
 
@@ -318,11 +324,9 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Julia set Fractals // Lukasz Swiderski 2015 PB", 0));
         settingsBox->setTitle(QApplication::translate("MainWindow", "Settings", 0));
         pushButton->setText(QApplication::translate("MainWindow", "Draw", 0));
+        label_2->setText(QApplication::translate("MainWindow", "N_MAX", 0));
         label_3->setText(QApplication::translate("MainWindow", "Re", 0));
         label_4->setText(QApplication::translate("MainWindow", "Im", 0));
-        label_2->setText(QApplication::translate("MainWindow", "N_MAX", 0));
-        ZoomPlus->setText(QApplication::translate("MainWindow", "Zoom +", 0));
-        ZoomMinus->setText(QApplication::translate("MainWindow", "Zoom -", 0));
         label->setText(QApplication::translate("MainWindow", "width", 0));
         label_5->setText(QApplication::translate("MainWindow", "height", 0));
         resetButton->setText(QApplication::translate("MainWindow", "Reset", 0));
@@ -332,6 +336,9 @@ public:
         leftButton->setText(QApplication::translate("MainWindow", "Left", 0));
         SSEcheckBox->setText(QApplication::translate("MainWindow", "Hardware Acceleration", 0));
         TimeLabel->setText(QApplication::translate("MainWindow", "Generated in:", 0));
+        ZoomPlus->setText(QApplication::translate("MainWindow", "Zoom +", 0));
+        ZoomMinus->setText(QApplication::translate("MainWindow", "Zoom -", 0));
+        openNewWindow->setText(QApplication::translate("MainWindow", "OpenGLWindow", 0));
     } // retranslateUi
 
 };

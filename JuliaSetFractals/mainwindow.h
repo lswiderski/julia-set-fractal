@@ -26,6 +26,7 @@ private slots:
     void MoveRight();
     void ZoomPlus();
     void ZoomMinus();
+	void on_openWindow();
 private:
     Ui::MainWindow *ui;
     QAction *drawAction;
